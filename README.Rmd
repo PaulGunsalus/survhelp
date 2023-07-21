@@ -1,0 +1,63 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# survhelp
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of survhelp is to create an way to easily extract survival data out of survival objects
+
+## Installation
+
+You can install the development version of survhelp like so:
+
+``` {r install, eval = FALSE}
+devtools::install_github("PaulGunsalus/survhelp")
+```
+
+## Example
+
+```{r example}
+library(survhelp)
+library(survival)
+## This example is taken from survival
+bladder <- survival::bladder2
+
+svd <- get_surv_data(coxph( Surv(start, stop, event) ~ strata(rx), data = bladder))
+head(svd)
+tail(svd)
+```
+
+Simple application building custom survival plots
+I would love add more survival objects
+```{r}
+library(ggplot2)
+# svd <- get_surv_data(coxph( Surv(start, stop, event) ~ x, test2))
+ggplot()+
+  geom_step(aes(x = time, y = surv, color = rx), data = svd)+
+  theme_minimal()+
+  labs(x = "Time", y = "Survival", title = "Survival by Rx")
+
+svd1 <- get_surv_data(survfit( Surv(start, stop, event) ~ 1, data = bladder))
+
+
+ggplot()+
+  geom_step(aes(x = time, y = surv), data = svd1)+
+  theme_minimal()+
+  labs(x = "Time", y = "Survival", title = "Full Survival")
+
+```
+
