@@ -63,7 +63,7 @@ survival objects
 
 ``` r
 library(ggplot2)
-# svd <- get_surv_data(coxph( Surv(start, stop, event) ~ x, test2))
+
 ggplot()+
   geom_step(aes(x = time, y = surv, color = rx), data = svd)+
   theme_minimal()+
